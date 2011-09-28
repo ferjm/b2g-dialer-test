@@ -89,3 +89,5 @@ core. It's mainly used for testing new ril implementations.
 - [[http://i-miss-erin.blogspot.com/2009/11/radio-layer-interface-in-android.html][Hooking up Android to a GSM radio on the BeagleBoard]]
 - [[http://www.netmite.com/android/mydroid/development/pdk/docs/telephony.html][libril Documentation]]
 - [[https://groups.google.com/forum/#!topic/android-porting/lo90a3Bb1nA][Small thread on ril stuff]]
+- [[http://www.slideshare.net/ssusere3af56/android-radio-layer-interface][Android Radio Layer Interface]]
+- [[http://www.slideshare.net/dpsmarques/android-telephony-stack][Android Telephony Stack]]
