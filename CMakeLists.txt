@@ -344,17 +344,29 @@ IF(NOT USING_ANDROID_GCC)
 ENDIF()
 
 SET(LIBS "cutils" "binder")
+SET(LIBS_TID "cutils" "binder" "utils" "cutils" "wpa_client" "netutils" "hardware_legacy" "ril")
 
-INCLUDE_DIRECTORIES("/home/kmachulis/code/mozbuild/B2G/glue/gonk/system/core/include/" "/home/kmachulis/code/mozbuild/B2G/glue/gonk/frameworks/base/include" "/home/kmachulis/code/mozbuild/android-ndk-r6b/sources/cxx-stl/system/include/")
+#INCLUDE_DIRECTORIES("/home/kmachulis/code/mozbuild/B2G/glue/gonk/system/core/include/" "/home/kmachulis/code/mozbuild/B2G/glue/gonk/frameworks/base/include" "/home/kmachulis/code/mozbuild/android-ndk-r6b/sources/cxx-stl/system/include/")
 
-LINK_DIRECTORIES("/home/kmachulis/code/mozbuild/B2G/glue/gonk/out/host/target/product/galaxys2/obj/STATIC_LIBRARIES/libcutils_intermediates/" "/home/kmachulis/code/mozbuild/B2G/glue/gonk/out/target/product/galaxys2/obj/lib/")
+#LINK_DIRECTORIES("/home/kmachulis/code/mozbuild/B2G/glue/gonk/out/host/target/product/galaxys2/obj/STATIC_LIBRARIES/libcutils_intermediates/" "/home/kmachulis/code/mozbuild/B2G/glue/gonk/out/target/product/galaxys2/obj/lib/")
+
+INCLUDE_DIRECTORIES("/home/jaoo/B2G/glue/gonk/system/core/include/" "/home/jaoo/B2G/glue/gonk/frameworks/base/include" "/home/jaoo/B2G/glue/gonk/hardware/ril/include/" "/opt/android/android-ndk-r6/sources/cxx-stl/system/include/")
+
+LINK_DIRECTORIES("/home/jaoo/B2G/glue/gonk/out/host/target/product/galaxys2/obj/STATIC_LIBRARIES/libcutils_intermediates/" "/home/jaoo/B2G/glue/gonk/out/target/product/galaxys2/obj/lib/")
 
 BUILDSYS_BUILD_EXE(
   NAME b2g-dialer-test
   SOURCES "src/main.cpp"
   CXX_FLAGS "-fno-exceptions"
-  LINK_LIBS ${LIBS}
+  LINK_LIBS ${LIBS_TID}
   )
+
+#BUILDSYS_BUILD_EXE(
+#  NAME b2g-dialer-tid-test
+#  SOURCES "src/fakeRIL_java.c"
+#  CXX_FLAGS "-fno-exceptions"
+#  LINK_LIBS ${LIBS_TID}
+#)
 
 ADD_CUSTOM_TARGET(adbpush
   COMMAND "adb" "push" "b2g-dialer-test" "/data/local/tmp/")

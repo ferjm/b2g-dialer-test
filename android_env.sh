@@ -2,7 +2,8 @@
 
 # http://opekar.blogspot.com/2011/06/android-cmake-is-much-easier-in-ndk-r5b.html
 
-export NDK=/home/kmachulis/code/mozbuild/android-ndk-r6b/
+#export NDK=/home/kmachulis/code/mozbuild/android-ndk-r6b/
+export NDK=/opt/android/android-ndk-r6/
 SYSROOT=$NDK/platforms/android-9/arch-arm
 
 MIDDLE=toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/

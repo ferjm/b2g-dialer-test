@@ -4,6 +4,9 @@
 #include <cutils/properties.h>
 #include <cutils/sockets.h>
 #include <binder/Parcel.h>
+#include <telephony/ril.h>
+#include <linux/prctl.h>
+#include <pwd.h>
 
 static int
 blockingWrite(int fd, const void *buffer, size_t len) {
@@ -31,9 +34,44 @@ blockingWrite(int fd, const void *buffer, size_t len) {
     return 0;
 }
 
+/*
+ * switchUser - Switches UID to radio, preserving CAP_NET_ADMIN capabilities.
+ * Our group, cache, was set by init.
+ */
+void switchUser()
+{
+    prctl(PR_SET_KEEPCAPS, 1, 0, 0, 0);
+    setuid(1001);
+
+    struct __user_cap_header_struct header;
+    struct __user_cap_data_struct cap;
+    header.version = _LINUX_CAPABILITY_VERSION;
+    header.pid = 0;
+    cap.effective = cap.permitted = 1 << CAP_NET_ADMIN;
+    cap.inheritable = 0;
+    capset(&header, &cap);
+}
+
+
 int main(int argc, char **argv) {
 
 #define  QEMUD_SOCKET_NAME    "rild"
+
+	struct passwd *pwd = NULL;
+
+	switchUser();
+
+  	pwd = getpwuid(getuid());
+  	if (pwd != NULL) {
+    		if (strcmp(pwd->pw_name, "radio") == 0) {
+      			printf("Radio.\n");
+    		} else {
+      			printf("No radio.\n");
+    		}
+  	} else {
+    		fprintf(stderr, "getpwuid error.");
+  	}
+
 
 	int done;
 	int tries = 10;
